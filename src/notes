@@ -1,0 +1,34 @@
+== Core gameplay mechanic
+* units act autonomously by default
+* player can issue a limited number of orders to micromanage units, at any point in time
+  * cost of orders for past/future is more than for present
+* game continuously simulates the past and future, via time waves
+  * changes propogate via a wave crashing into a wave in front, whereupon it replaces state
+
+* game provides summary details of the future with info like:
+  * unit X dies, takes damage, makes contact, etc
+
+== Time
+Time = Int -- simulation tick time
+TimeWindow = { waves :: [TimeWave] }
+TimeWave = { state :: GameState, now :: Time, speed :: Time }
+  ObserverWave:
+    * connected to a player (input and output)
+    * speed= 0x-2x
+    * store achronal orders ?to global?
+  NaturalWave:
+    * speed= 3.1x
+    * only outputs are wave crash mechanic
+    * only inputs are achronal orders from players
+  implementation notes:
+    * waves are very easy to parallelize
+    * states are equal except when time travel/orders occur, thus should memoize heavily
+
+== MCTS
+    UCT
+    progressive widening (CrazyStone)
+    statistics from grandparent node (Mogo)
+    RAVE?
+    light playouts (fully random) vs heavy playouts (using heuristics to limit move pool)
+
+== ?
